@@ -1,4 +1,4 @@
-
+from helpers import login_required
 import sqlite3
 from flask import Flask,session , render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,6 +12,7 @@ def get_db_connection():
     return conn
 
 @app.route('/')
+@login_required
 def index():
     conn = get_db_connection()
     problems = conn.execute('SELECT * FROM problems').fetchall()
@@ -21,6 +22,7 @@ def index():
 
 
 @app.route("/login", methods=["GET", "POST"])
+@login_required
 def login():
     """Log user in"""
 
@@ -62,6 +64,7 @@ def login():
         return render_template("login.html")
 
 @app.route("/logout")
+@login_required
 def logout():
     """Log user out"""
 
@@ -72,6 +75,7 @@ def logout():
     return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
+@login_required
 def register():
     if request.method == "GET":
         conn = get_db_connection()
