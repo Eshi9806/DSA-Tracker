@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Problems
+{% endblock %}
+
+{% block main %}
+    <form action="/add" method="post">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="title" placeholder="Problem Name" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="topic" placeholder="Problem Description" type="text">
+        </div>
+        <select class="form-select mx-auto w-auto" name="difficulty">
+            <option value="" disabled selected>Select Difficulty</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+        <select class="form-select mx-auto w-auto" name="status">
+            <option value="" disabled selected>Select Status</option>
+            <option value="Solved">Solved</option>
+            <option value="Attempted">Attempted</option>
+            <option value="Revision Needed">Revision Needed</option>
+        </select>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="theory_url" placeholder="Theory URL" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="practice_url" placeholder="Practice URL" type="text">
+        </div>
+        <textarea class="form-control mx-auto w-auto" name="notes" placeholder="Notes"></textarea>
+        <button class="btn btn-primary mx-auto w-auto" type="submit">Add Problem</button>
+    </form>
+{% endblock %}
+        

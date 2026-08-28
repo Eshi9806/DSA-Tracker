@@ -109,5 +109,44 @@ def register():
 
         return redirect("/login")
 
+
+
+@app.route("/add", methods=["GET", "POST"])
+@login_required
+def add():
+    if request.method == "GET":
+        return render_template("add.html")
+    else:
+        
+        title = request.form.get("title")
+        if not title:
+            return ("Provide Title")
+
+        topic = request.form.get("topic")
+        if not topic:
+            return ("Provide Topic")
+
+        difficulty = request.form.get("difficulty")
+        if not difficulty:
+            return ("Provide Difficulty")
+
+        status = request.form.get("status")
+        if not status:  
+            return ("Provide Status")   
+
+        theory_url = request.form.get("theory_url", "")
+        practice_url = request.form.get("practice_url", "")
+        notes = request.form.get("notes", "")
+
+        user_id = session.get("user_id")
+
+        conn = get_db_connection()
+        conn.execute("INSERT INTO problems(title, topic, difficulty, status, theory_url, practice_url, notes, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (title, topic, difficulty, status, theory_url, practice_url, notes, user_id))
+        conn.commit()
+        conn.close()
+
+        return redirect("/")
+
+
 if __name__ == '__main__':
     app.run(debug=True)
