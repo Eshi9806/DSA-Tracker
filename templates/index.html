@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main %}
+<h2>MY DSA TRACKER</h2>
+{% if problems %}
+<table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Topic</th>
+                    <th>Difficulty</th>
+                    <th>Status</th>
+                    <th>Theory URL</th>
+                    <th>Practice URL</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for problem in problems  %}
+                    <tr>
+                        <td>{{ problem.title }}</td>
+                        <td>{{ problem.topic }}</td>
+                        <td>{{ problem.difficulty }}</td>
+                        <td>{{ problem.status }}</td>
+                        <td><a href="{{ problem['theory_url'] }}" target="_blank">Theory</a></td>
+                        <td><a href="{{ problem['practice_url'] }}" target="_blank">Practice</a></td>
+                        <td>{{ problem.notes }}</td>
+                    </tr>
+                {% endfor %}
+                
+                   </tbody>
+        </table> 
+        {% else %}
+    <div class="alert alert-info text-center mt-4">
+        <h4>No problems added yet!</h4>
+        <p>Start tracking your progress by adding your first DSA problem.</p>
+        <a href="/add" class="btn btn-primary mt-2">Add Your First Problem</a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -14,11 +14,11 @@ def get_db_connection():
 @app.route('/')
 @login_required
 def index():
+    user_id = session.get("user_id")
     conn = get_db_connection()
-    problems = conn.execute('SELECT * FROM problems').fetchall()
+    problems = conn.execute('SELECT id, title, topic, difficulty, theory_url, practice_url, status, notes FROM problems WHERE user_id = ? order by id desc', (user_id,)).fetchall()
     conn.close()
-    return f"Total problems tracked: {len(problems)}"
-
+    return render_template('index.html', problems=problems)
 
 
 @app.route("/login", methods=["GET", "POST"])

@@ -4,7 +4,11 @@ CREATE TABLE IF NOT EXISTS problems (
     topic TEXT NOT NULL,
     difficulty TEXT CHECK(difficulty IN ('Easy', 'Medium', 'Hard')),
     theory_url TEXT NOT NULL,
-    practice_url TEXT NOT NULL
+    practice_url TEXT NOT NULL,
+    status TEXT CHECK(status IN ('Not Started', 'In Progress', 'Completed')) DEFAULT 'Not Started',
+    notes TEXT,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS users (
