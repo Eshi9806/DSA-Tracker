@@ -17,6 +17,7 @@
                     <th>Theory URL</th>
                     <th>Practice URL</th>
                     <th>Notes</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,9 +30,24 @@
                         <td><a href="{{ problem['theory_url'] }}" target="_blank">Theory</a></td>
                         <td><a href="{{ problem['practice_url'] }}" target="_blank">Practice</a></td>
                         <td>{{ problem.notes }}</td>
+                        <td>
+                        <form action="/delete/{{ problem.id }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this problem?');">
+                        Delete
+                            </button>
+                        </form>
+                    </td>
                     </tr>
                 {% endfor %}
-                
+                <td>
+    <a href="/edit/{{ problem.id }}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+    
+    <form action="/delete/{{ problem.id }}" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this problem?');">
+            Delete
+        </button>
+    </form>
+</td>
                    </tbody>
         </table> 
         {% else %}

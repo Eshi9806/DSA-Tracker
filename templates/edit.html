@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit Problem
+{% endblock %}
+
+{% block main %}
+    <form action="/edit/{{ problem.id }}" method="post" class="mt-4">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="title" placeholder="Problem Name" type="text" value="{{ problem.title }}" required>
+        </div>
+
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="topic" placeholder="Topic" type="text" value="{{ problem.topic }}" required>
+        </div>
+
+        <div class="mb-3">
+            <select class="form-select mx-auto w-auto" name="difficulty" required>
+                <option value="Easy" {% if problem.difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+                <option value="Medium" {% if problem.difficulty == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="Hard" {% if problem.difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <select class="form-select mx-auto w-auto" name="status" required>
+                <option value="Solved" {% if problem.status == 'Solved' %}selected{% endif %}>Solved</option>
+                <option value="Attempted" {% if problem.status == 'Attempted' %}selected{% endif %}>Attempted</option>
+                <option value="Revision Needed" {% if problem.status == 'Revision Needed' %}selected{% endif %}>Revision Needed</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="theory_url" placeholder="Theory URL (optional)" type="url" value="{{ problem.theory_url }}">
+        </div>
+
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="practice_url" placeholder="Practice URL (optional)" type="url" value="{{ problem.practice_url }}">
+        </div>
+
+        <div class="mb-3">
+            <textarea class="form-control mx-auto w-auto" name="notes" placeholder="Notes">{{ problem.notes }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Update Problem</button>
+            <a href="/" class="btn btn-secondary me-2">Cancel</a>
+        </div>
+    </form>
+{% endblock %}
+        

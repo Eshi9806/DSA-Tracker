@@ -22,7 +22,6 @@ def index():
 
 
 @app.route("/login", methods=["GET", "POST"])
-@login_required
 def login():
     """Log user in"""
 
@@ -74,8 +73,53 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/delete/<int:id>", methods=["POST"])
 @login_required
+def delete(id):
+    db = get_db()
+    db.execute("DELETE FROM problems WHERE id = ? AND user_id = ?", (id, session["user_id"]))
+    db.commit()
+    return redirect("/")
+
+@app.route("/edit/<int:id>", methods=["POST", "GET"])
+@login_required
+def edit(id):
+
+    if request.method == "GET":
+        conn = get_db_connection()
+        problem = conn.execute("SELECT * FROM problems WHERE id = ? AND user_id = ?", (id, session["user_id"])).fetchone()
+        if not problem: 
+            conn.close()   
+            return redirect("/")
+        conn.close()
+        return render_template("edit.html", problem=problem)
+       
+
+    else:
+        conn = get_db_connection()
+        title = request.form.get("title")
+        topic = request.form.get("topic")
+        difficulty = request.form.get("difficulty")
+        status = request.form.get("status")
+        theory_url = request.form.get("theory_url", "")
+        practice_url = request.form.get("practice_url", "")
+        notes = request.form.get("notes", "")
+
+        if not title or not topic or not difficulty or not status:
+            conn.close()
+            return "All fields except URLs and notes are required.", 400
+
+        conn.execute(
+            "UPDATE problems SET title = ?, topic = ?, difficulty = ?, status = ?, theory_url = ?, practice_url = ?, notes = ? WHERE id = ? AND user_id = ?",
+            (title, topic, difficulty, status, theory_url, practice_url, notes, id, session["user_id"])
+        )
+        conn.commit()
+        conn.close()
+        return redirect("/")
+        
+    
+
+@app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         conn = get_db_connection()
