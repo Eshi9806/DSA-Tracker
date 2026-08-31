@@ -1,6 +1,6 @@
 from helpers import login_required
 import sqlite3
-from flask import Flask,session , render_template, request, redirect, url_for
+from flask import flash,Flask,session , render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -79,6 +79,7 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM problems WHERE id = ? AND user_id = ?", (id, session["user_id"]))
     db.commit()
+    flash("Problem deleted!", "warning")
     return redirect("/")
 
 @app.route("/edit/<int:id>", methods=["POST", "GET"])
@@ -115,6 +116,7 @@ def edit(id):
         )
         conn.commit()
         conn.close()
+        flash("Problem updated!", "info")
         return redirect("/")
         
     
@@ -186,9 +188,10 @@ def add():
 
         conn = get_db_connection()
         conn.execute("INSERT INTO problems(title, topic, difficulty, status, theory_url, practice_url, notes, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (title, topic, difficulty, status, theory_url, practice_url, notes, user_id))
+        flash("Problem added successfully!", "success")
         conn.commit()
         conn.close()
-
+        flash("Problem added!", "success")
         return redirect("/")
 
 

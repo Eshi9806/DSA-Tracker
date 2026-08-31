@@ -25,10 +25,14 @@
                     <tr>
                         <td>{{ problem.title }}</td>
                         <td>{{ problem.topic }}</td>
-                        <td>{{ problem.difficulty }}</td>
-                        <td>{{ problem.status }}</td>
-                        <td><a href="{{ problem['theory_url'] }}" target="_blank">Theory</a></td>
-                        <td><a href="{{ problem['practice_url'] }}" target="_blank">Practice</a></td>
+                        <td><span class="badge {% if problem.difficulty == 'Easy' %}bg-success{% elif problem.difficulty == 'Medium' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+    {{ problem.difficulty }}
+</span></td>
+                        <td><span class="badge {% if problem.status == 'Solved' %}bg-success{% elif problem.status == 'Attempted' %}bg-info text-dark{% else %}bg-warning text-dark{% endif %}">
+    {{ problem.status }}
+</span></td>
+                        <td>{% if problem.theory_url %}<a href="{{ problem.theory_url }}" target="_blank" class="btn btn-sm btn-outline-info">Theory</a>{% else %}<span class="text-muted">-</span>{% endif %}</td>
+                        <td>{% if problem.practice_url %}<a href="{{ problem.practice_url }}" target="_blank" class="btn btn-sm btn-outline-success">Practice</a>{% else %}<span class="text-muted">-</span>{% endif %}</td>
                         <td>{{ problem.notes }}</td>
                         <td>
                         <form action="/delete/{{ problem.id }}" method="POST" style="display:inline;">

@@ -31,8 +31,8 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     {% if session["user_id"] %}
                         <ul class="navbar-nav me-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/">Sell</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/add">History</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/add">Add Problem</a></li>
                         </ul>
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
@@ -47,13 +47,18 @@
             </div>
         </nav>
 
-        {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary mb-0 text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
-                </div>
-            </header>
-        {% endif %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <header>
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show mb-0 text-center" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </header>
+  {% endif %}
+{% endwith %}
 
         <main class="container py-5 text-center">
             {% block main %}{% endblock %}
