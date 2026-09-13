@@ -8,53 +8,64 @@
 <h2>MY DSA TRACKER</h2>
 {% if problems %}
 <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Topic</th>
-                    <th>Difficulty</th>
-                    <th>Status</th>
-                    <th>Theory URL</th>
-                    <th>Practice URL</th>
-                    <th>Notes</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for problem in problems  %}
-                    <tr>
-                        <td>{{ problem.title }}</td>
-                        <td>{{ problem.topic }}</td>
-                        <td><span class="badge {% if problem.difficulty == 'Easy' %}bg-success{% elif problem.difficulty == 'Medium' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
-    {{ problem.difficulty }}
-</span></td>
-                        <td><span class="badge {% if problem.status == 'Solved' %}bg-success{% elif problem.status == 'Attempted' %}bg-info text-dark{% else %}bg-warning text-dark{% endif %}">
-    {{ problem.status }}
-</span></td>
-                        <td>{% if problem.theory_url %}<a href="{{ problem.theory_url }}" target="_blank" class="btn btn-sm btn-outline-info">Theory</a>{% else %}<span class="text-muted">-</span>{% endif %}</td>
-                        <td>{% if problem.practice_url %}<a href="{{ problem.practice_url }}" target="_blank" class="btn btn-sm btn-outline-success">Practice</a>{% else %}<span class="text-muted">-</span>{% endif %}</td>
-                        <td>{{ problem.notes }}</td>
-                        <td>
-                        <form action="/delete/{{ problem.id }}" method="POST" style="display:inline;">
-                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this problem?');">
-                        Delete
-                            </button>
-                        </form>
-                    </td>
-                    </tr>
-                {% endfor %}
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Topic</th>
+            <th>Difficulty</th>
+            <th>Status</th>
+            <th>Theory URL</th>
+            <th>Practice URL</th>
+            <th>Notes</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for problem in problems %}
+            <tr>
+                <td>{{ problem.title }}</td>
+                <td>{{ problem.topic }}</td>
                 <td>
-    <a href="/edit/{{ problem.id }}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
-    
-    <form action="/delete/{{ problem.id }}" method="POST" style="display:inline;">
-        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this problem?');">
-            Delete
-        </button>
-    </form>
-</td>
-                   </tbody>
-        </table> 
-        {% else %}
+                    <span class="badge {% if problem.difficulty == 'Easy' %}bg-success{% elif problem.difficulty == 'Medium' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                        {{ problem.difficulty }}
+                    </span>
+                </td>
+                <td>
+                    <span class="badge {% if problem.status == 'Solved' %}bg-success{% elif problem.status == 'Attempted' %}bg-info text-dark{% else %}bg-warning text-dark{% endif %}">
+                        {{ problem.status }}
+                    </span>
+                </td>
+                <td>
+                    {% if problem.theory_url %}
+                        <a href="{{ problem.theory_url }}" target="_blank" class="btn btn-sm btn-outline-info">Theory</a>
+                    {% else %}
+                        <span class="text-muted">-</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if problem.practice_url %}
+                        <a href="{{ problem.practice_url }}" target="_blank" class="btn btn-sm btn-outline-success">Practice</a>
+                    {% else %}
+                        <span class="text-muted">-</span>
+                    {% endif %}
+                </td>
+                <td>{{ problem.notes }}</td>
+                <td>
+                    <!-- Edit Button -->
+                    <a href="/edit/{{ problem.id }}" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                    
+                    <!-- Delete Button Form -->
+                    <form action="/delete/{{ problem.id }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this problem?');">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+{% else %}
     <div class="alert alert-info text-center mt-4">
         <h4>No problems added yet!</h4>
         <p>Start tracking your progress by adding your first DSA problem.</p>

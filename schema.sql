@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS problems (
     practice_url TEXT NOT NULL,
     status TEXT CHECK(status IN ('Not Started', 'In Progress', 'Completed')) DEFAULT 'Not Started',
     notes TEXT,
-    user_id INTEGER NOT NULL,
+    user_id INTEGER ,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 

@@ -1,37 +1,50 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Add Problems
+    Add Problem
 {% endblock %}
 
 {% block main %}
-    <form action="/add" method="post">
+    <h2>Add a New Problem</h2>
+    <form action="/add" method="post" class="mt-4">
         <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="title" placeholder="Problem Name" type="text">
+            <input class="form-control mx-auto w-auto" name="title" placeholder="Problem Name" type="text" required>
         </div>
+        
         <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="topic" placeholder="Problem Description" type="text">
+            <input class="form-control mx-auto w-auto" name="topic" placeholder="Topic (e.g., Arrays, Trees)" type="text" required>
         </div>
-        <select class="form-select mx-auto w-auto" name="difficulty">
-            <option value="" disabled selected>Select Difficulty</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-        </select>
-        <select class="form-select mx-auto w-auto" name="status">
-            <option value="" disabled selected>Select Status</option>
-            <option value="Solved">Solved</option>
-            <option value="Attempted">Attempted</option>
-            <option value="Revision Needed">Revision Needed</option>
-        </select>
+        
         <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="theory_url" placeholder="Theory URL" type="url" required>
+            <select class="form-select mx-auto w-auto" name="difficulty" required>
+                <option value="" disabled selected>Select Difficulty</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select>
         </div>
+        
         <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="practice_url" placeholder="Practice URL" type="url" required>
+            <select class="form-select mx-auto w-auto" name="status" required>
+                <option value="" disabled selected>Select Status</option>
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
         </div>
-        <textarea class="form-control mx-auto w-auto" name="notes" placeholder="Notes"></textarea>
+        
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="theory_url" placeholder="Theory URL (Optional)" type="url">
+        </div>
+        
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="practice_url" placeholder="Practice URL (Optional)" type="url">
+        </div>
+        
+        <div class="mb-3">
+            <textarea class="form-control mx-auto w-auto" name="notes" placeholder="Notes (Optional)"></textarea>
+        </div>
+        
         <button class="btn btn-primary mx-auto w-auto" type="submit">Add Problem</button>
     </form>
 {% endblock %}
-        

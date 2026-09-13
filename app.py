@@ -76,7 +76,7 @@ def logout():
 @app.route("/delete/<int:id>", methods=["POST"])
 @login_required
 def delete(id):
-    db = get_db()
+    db = get_db_connection()
     db.execute("DELETE FROM problems WHERE id = ? AND user_id = ?", (id, session["user_id"]))
     db.commit()
     flash("Problem deleted!", "warning")
@@ -144,8 +144,9 @@ def register():
         if password != confirm_password:
             return ("Password not matched")
             conn = get_db_connection()
-
+        conn = get_db_connection()
         if len(conn.execute("Select * from users where username = ?", (username,)).fetchall()) > 0:
+            
             conn.close()
             return ("Username already taken")
         password1 = generate_password_hash(password)
@@ -166,19 +167,22 @@ def add():
         
         title = request.form.get("title")
         if not title:
-            return ("Provide Title")
+            return "Provide Title", 400
 
         topic = request.form.get("topic")
         if not topic:
-            return ("Provide Topic")
+            return "Provide Topic", 400
 
         difficulty = request.form.get("difficulty")
         if not difficulty:
-            return ("Provide Difficulty")
+            return "Provide Difficulty", 400
 
         status = request.form.get("status")
+        valid_statuses = ["Not Started", "In Progress", "Completed"]
+        if status not in valid_statuses:
+            status = "Not Started"
         if not status:  
-            return ("Provide Status")   
+            return "Provide Status", 400   
 
         theory_url = request.form.get("theory_url", "")
         practice_url = request.form.get("practice_url", "")
@@ -187,13 +191,19 @@ def add():
         user_id = session.get("user_id")
 
         conn = get_db_connection()
-        conn.execute("INSERT INTO problems(title, topic, difficulty, status, theory_url, practice_url, notes, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (title, topic, difficulty, status, theory_url, practice_url, notes, user_id))
-        flash("Problem added successfully!", "success")
-        conn.commit()
-        conn.close()
-        flash("Problem added!", "success")
+        try:
+                conn.execute(
+                    """
+                    INSERT INTO problems (title, topic, difficulty, status, theory_url, practice_url, notes, user_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (title, topic, difficulty, status, theory_url, practice_url, notes, user_id)
+                )
+                conn.commit()
+                flash("Problem added successfully!", "success")
+        finally:
+                conn.close()
         return redirect("/")
-
 
 if __name__ == '__main__':
     app.run(debug=True)

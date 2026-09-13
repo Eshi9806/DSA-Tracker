@@ -24,10 +24,10 @@
 
         <div class="mb-3">
             <select class="form-select mx-auto w-auto" name="status" required>
-                <option value="Solved" {% if problem.status == 'Solved' %}selected{% endif %}>Solved</option>
-                <option value="Attempted" {% if problem.status == 'Attempted' %}selected{% endif %}>Attempted</option>
-                <option value="Revision Needed" {% if problem.status == 'Revision Needed' %}selected{% endif %}>Revision Needed</option>
-            </select>
+                <option value="Not Started" {% if problem.status == 'Not Started' %}selected{% endif %}>Not Started</option>
+                <option value="In Progress" {% if problem.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                <option value="Completed" {% if problem.status == 'Completed' %}selected{% endif %}>Completed</option>
+                
         </div>
 
         <div class="mb-3">

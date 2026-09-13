@@ -7,7 +7,7 @@ def init_db():
     with open('schema.sql', 'r') as f:
         cursor.executescript(f.read())
 
-    cursor.execute("SELECT * FROM problems")
+    cursor.execute("SELECT COUNT(*) FROM problems")
     if cursor.fetchone()[0] == 0:
         sample_problems = [
     (
@@ -41,8 +41,8 @@ def init_db():
     connection.commit()
     print("Database seeded with sample problems!")
 
-connection.close()
-print("Database initialization complete.")
+    connection.close()
+    print("Database initialization complete.")
 
 
 if __name__ == '__main__':
